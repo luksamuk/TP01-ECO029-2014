@@ -1,0 +1,36 @@
+Hash:
+	vetor[10000]
+
+A chance de dois caracteres cairem no mesmo lugar é pequena
+se o crescimento for exponencial
+uint64_t(somatório(caractere*(2^posição_na_string))) % 10000
+
+
+casas
+c + a + s + a + s
+
+99*2 97*4 115*8 97*16 115*32
+198 + 388 + 920 + 1552 + 3680
+6738 % 10000
+
+const char* GetPreprocessedText() const;
+const char* GetText() const;
+
+-> Abrir robots.txt
+-> Guardar textos de robots.txt em uma pool
+	-> Pré-processar UMA CÓPIA
+-> Preencher o hash com todas as palavras, de todos os textos;
+	fazer isso usando a cópia pré-processada
+=> pode ser custoso. Avisar pro n00b
+
+=> Menu
+	->Busca por palavra
+		-> Pré-processar a palavra
+		-> Buscar a palavra no hash. Sem palavra, sem busca.
+			Retorno: Lista de colisões do hash.
+		-> Busca sequencial pela palavra na lista de colisões
+			Retorno: Lista de textos
+		-> Cada elemento da lista de textos possui uma sentinela citando o número de ocorrências, gerada com o hash.
+		Sendo assim, imprima todas as ocorrências para cada texto, dada a relevância do mesmo.
+
+	-> Busca por frase

@@ -1,0 +1,3 @@
+tests/test.txt
+tests/test2.txt
+tests/pangrama.txt

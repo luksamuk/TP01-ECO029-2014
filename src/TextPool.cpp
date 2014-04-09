@@ -83,9 +83,9 @@ TextPool::TextPool()
 			// Remove special characters
 			RemoveOddCharacters(m_preprocessed[n_f], size);
 
-			//#ifdef DEBUG
-			//printf("Normal:\n%s\nPreprocessed:\n%s\n", m_texts[n_f], m_preprocessed[n_f]);
-			//#endif
+			#ifdef DEBUG
+			printf("Normal:\n%s\nPreprocessed:\n%s\n", m_texts[n_f], m_preprocessed[n_f]);
+			#endif
 
 			#ifdef DEBUG
 			printf("All set for this file.\n");
@@ -99,7 +99,7 @@ TextPool::~TextPool()
 	for(unsigned int i = 0; i < m_textsnumber; i++)
 	{
 		#ifdef DEBUG
-		printf("Deleting %s...\n", m_filenames[i]);
+		printf("Deleting copy of %s...\n", m_filenames[i]);
 		#endif
 		delete [] m_filenames[i];
 		delete [] m_texts[i];

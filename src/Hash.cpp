@@ -148,25 +148,28 @@ Hashish::Celula::Celula()   /*Inicializar a lista de colisões e o contador.*/
 }
 Hashish::Celula::~Celula()  /*Desalocar a lista de colisões da célula.*/
 {
-    if(colisoes->prox == NULL)
+    if(colisoes)
     {
-        delete colisoes;
-        colisoes = NULL;
-    }
-    else
-    {
-        NoColisao* proximo_ponteiro;
-        proximo_ponteiro = colisoes->prox;
-
-        while(colisoes->prox != NULL)
+        if(colisoes->prox == NULL)
         {
             delete colisoes;
-            colisoes = proximo_ponteiro;
-            proximo_ponteiro = colisoes->prox;
+            colisoes = NULL;
         }
+        else
+        {
+            NoColisao* proximo_ponteiro;
+            proximo_ponteiro = colisoes->prox;
 
-        delete colisoes;
-        colisoes = NULL;
+            while(colisoes->prox != NULL)
+            {
+                delete colisoes;
+                colisoes = proximo_ponteiro;
+                proximo_ponteiro = colisoes->prox;
+            }
+
+            delete colisoes;
+            colisoes = NULL;
+        }
     }
 }
 void Hashish::Celula::AdicionarOcorrencia(const char* palavra, const char* arquivo, unsigned int local)/*Verificar se existem */

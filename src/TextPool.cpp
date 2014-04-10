@@ -86,7 +86,7 @@ TextPool::TextPool()
 			RemoveOddCharacters(m_preprocessed[n_f], size);
 
 			#ifdef DEBUG
-			printf("Normal:\n%s\nPreprocessed:\n%s\n", m_texts[n_f], m_preprocessed[n_f]);
+			printf(KGRN "Normal:" KRESET "\n%s\n" KGRN "Preprocessed:" KRESET "\n%s\n", m_texts[n_f], m_preprocessed[n_f]);
 			#endif
 
 			#ifdef DEBUG
@@ -218,7 +218,7 @@ char* TextPool::m_grabtextcopy(unsigned int txt)
 	return cpy;
 }
 
-void TextPool::RegisterWordsOnHash(const Hashish &h)
+void TextPool::RegisterWordsOnHash(Hashish &h)
 {
 	char* pch;
 	const char tokens[] = " \"\',.()[]<>{}?:;!-\n";
@@ -226,13 +226,18 @@ void TextPool::RegisterWordsOnHash(const Hashish &h)
 	{
 		char* txt = m_grabtextcopy(i);
 		pch = strtok(txt, tokens);
-		printf("0x%X == 0x%X\n", txt, pch);
+		#ifdef DEBUG
+		printf("Adding" KRED " %s " KRESET "to hash...\n", GetFilename(i));
+		#endif
 
 		while(pch != NULL)
 		{
-			//h.AdicionarOcorrencia(pch, i, (pch - txt));
-			printf("%s, dist = %ld\n", pch, (pch - txt));
+			h.Adicionar(pch, i, (pch - txt));
+			//printf(KBLU "%s" KRESET ", dist = %ld\n", pch, (pch - txt));
 			pch = strtok(NULL, tokens);
 		}
+		#ifdef DEBUG
+		printf("Ok.\n");
+		#endif
 	}
 }

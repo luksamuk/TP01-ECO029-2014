@@ -1,6 +1,16 @@
 #ifndef TEXTPOOL_H
 #define TEXTPOOL_H
 
+#define KNRM   "\x1B[0m"
+#define KRED   "\x1B[31m"
+#define KGRN   "\x1B[32m"
+#define KYEL   "\x1B[33m"
+#define KBLU   "\x1B[34m"
+#define KMAG   "\x1B[35m"
+#define KCYN   "\x1B[36m"
+#define KWHT   "\x1B[37m"
+#define KRESET "\033[0m"
+
 
 #include "Hash.h"
 #include <cstdio>
@@ -26,9 +36,7 @@ public:
 	const char*  GetFilename(unsigned int)         const;
 	long int     GetTextLength(unsigned int)       const;
 
-	// TODO: The register func needs to be changed to:
-	// Hashish::AdicionarOcorrencia(char* palavra, unsigned int texto, long int posicao)
-	void         RegisterWordsOnHash(const Hashish&);
+	void         RegisterWordsOnHash(Hashish&);
 
 	static void RemoveOddCharacters(char*, long int);
 };

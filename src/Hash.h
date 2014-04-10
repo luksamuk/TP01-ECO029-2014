@@ -36,16 +36,16 @@ private:
 
             NoColisao(const char*);
             ~NoColisao();
-            void AdicionarArquivo(const char*, unsigned int);
+            void AdicionarArquivo(unsigned int, unsigned long);
             void RetornarArquivos(ModulodePesquisa*);
         };
 
         NoColisao* colisoes;    /*Ponteiro para lista de colisões contidas na célula.*/
-        int contador;           /*Incrementado a cada nova colisão.*/
+        unsigned long contador;           /*Incrementado a cada nova colisão.*/
 
         Celula();
         ~Celula();
-        void AdicionarOcorrencia(const char*, const char*, unsigned int);
+        void AdicionarOcorrencia(char*, unsigned int, unsigned long);
         bool Pesquisa(ModulodePesquisa*);
     };
 
@@ -54,9 +54,9 @@ private:
     unsigned int AgregarValor(const char*);
 
 public:
-    Hashish(int);
+    Hashish(unsigned int);
     ~Hashish();
-    void Adicionar(const char*, const char*, unsigned int);
+    void Adicionar(char*, unsigned int, unsigned long);
     void Pesquisa(ModulodePesquisa*);
 
 };
@@ -64,29 +64,29 @@ public:
 struct NoTexto
 {
     NoTexto* prox;
-    char* arquivo;      /*Identificador.*/
-    unsigned int relev; /*Relevância, deve ser incrementada a cada adição de ocorrência.
+    unsigned int arquivo;      /*Identificador.*/
+    unsigned long relev; /*Relevância, deve ser incrementada a cada adição de ocorrência.
                             Será usada como chave, pode ser usada para ordenar a lista de 'NoTexto's*/
 
     NoOcorrencia* listaocor;    /*Ponteiro para o começo da sub-lista contendo as ocorrências da palavra neste texto.*/
     NoOcorrencia* ultimaocor;   /*Ponteiro auxiliar para operações de inserção.*/
 
-    NoTexto(const char*);
+    NoTexto(unsigned int);
     ~NoTexto();
-    void AdicionarLocal(unsigned int);
+    void AdicionarLocal(unsigned long);
 };
 
 struct NoOcorrencia
 {
     NoOcorrencia* prox;
-    unsigned int local; /*Posição da palavra nesta ocorrência.*/
+    unsigned long local; /*Posição da palavra nesta ocorrência.*/
 };
 
 
 struct ModulodePesquisa /*Tipo base utilizado para obter informações sobre a estrutura do Hash.*/
 {                       /*Não possui destrutor pois somente aponta para os dados dentro do Hash sem copiá-los.*/
     const char* palavra;
-    int num_ocorrencias;
+    unsigned long num_ocorrencias;
     NoTexto* listatexto;
 };
 

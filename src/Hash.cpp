@@ -3,13 +3,13 @@
 /*
 */
 
-NoTexto::NoTexto(const char* Arquivo)      /*Inicializar a lista de ocorrências e assumir um valor de identificação */
+NoTexto::NoTexto(unsigned int Arquivo)      /*Inicializar a lista de ocorrências e assumir um valor de identificação */
 {                                           /*através da variável Arquivo.*/
     listaocor = NULL;
     ultimaocor = listaocor;
     prox = NULL;
     relev = 0;
-    sprintf(arquivo, "%s", Arquivo);
+    arquivo = Arquivo;
 }
 NoTexto::~NoTexto() /*Deletar os ponteiros da lista de ocorrências.*/
 {
@@ -37,7 +37,7 @@ NoTexto::~NoTexto() /*Deletar os ponteiros da lista de ocorrências.*/
         }
     }
 }
-void NoTexto::AdicionarLocal(unsigned int localizacao)  /*Adiciona mais um local à lista de ocorrencias.*/
+void NoTexto::AdicionarLocal(unsigned long localizacao)  /*Adiciona mais um local à lista de ocorrencias.*/
 {
     if(ultimaocor == NULL)
     {
@@ -90,7 +90,7 @@ Hashish::Celula::NoColisao::~NoColisao()    /*Esvaziar ponteiros da lista de tex
     }
 }
 
-void Hashish::Celula::NoColisao::AdicionarArquivo(const char* arquivo, unsigned int local)/*Verificar se arquivo já existe.*/
+void Hashish::Celula::NoColisao::AdicionarArquivo(unsigned int arquivo, unsigned long local)/*Verificar se arquivo já existe.*/
 {                                                                                   /*Se sim, adicionar ocorrência nele.*/
                                                                                     /*Se não, criar outro nó para esse arquivo.*/
                                                                                     /*Adicionar ocorrência.*/
@@ -108,7 +108,7 @@ void Hashish::Celula::NoColisao::AdicionarArquivo(const char* arquivo, unsigned 
         if(p->prox == NULL)
             break;
 
-        if(!strcmp(p->arquivo, arquivo))
+        if(p->arquivo == arquivo)
             break;
 
         p = p->prox;
@@ -172,7 +172,7 @@ Hashish::Celula::~Celula()  /*Desalocar a lista de colisões da célula.*/
         }
     }
 }
-void Hashish::Celula::AdicionarOcorrencia(const char* palavra, const char* arquivo, unsigned int local)/*Verificar se existem */
+void Hashish::Celula::AdicionarOcorrencia(char* palavra, unsigned int arquivo, unsigned long local)/*Verificar se existem */
 {                                                                           /*colisões na célula.*/
                                                                             /*Se não existirem colisões na célula, adicionar */
                                                                             /*nova colisão.*/
@@ -230,7 +230,7 @@ bool Hashish::Celula::Pesquisa(ModulodePesquisa* conteiner) /*Pesquisar dentro d
 **
 */
 
-Hashish::Hashish(int Tamanho) /*Inicializar o hash, alocando Tamanho células.*/
+Hashish::Hashish(unsigned int Tamanho) /*Inicializar o hash, alocando Tamanho células.*/
 {
     tamanho = Tamanho;
     tabela = new Celula[tamanho];
@@ -251,7 +251,7 @@ unsigned int Hashish::AgregarValor(const char* palavra) /*Definir o hash da pala
 }
 
 
-void Hashish::Adicionar(const char* item, const char* arquivo, unsigned int local)  /*Adicionar dados às listas internas do hash.*/
+void Hashish::Adicionar(char* item, unsigned int arquivo, unsigned long local)  /*Adicionar dados às listas internas do hash.*/
 {
     tabela[AgregarValor(item)].AdicionarOcorrencia(item, arquivo, local);
 }

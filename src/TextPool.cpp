@@ -46,6 +46,7 @@ TextPool::TextPool()
 		m_filenames    = new char*[m_textsnumber];
 		m_texts        = new char*[m_textsnumber];
 		m_preprocessed = new char*[m_textsnumber];
+		m_filesizes    = new long int[m_textsnumber];
 
 		// Store filenames
 		for(int i = 0; i < m_textsnumber; i++)
@@ -69,6 +70,7 @@ TextPool::TextPool()
 			fseek(fp, 0L, SEEK_END);
 			size = ftell(fp);
 			rewind(fp);
+			m_filesizes[n_f] = size;
 
 			m_texts[n_f]        = new char[size];
 			m_preprocessed[n_f] = new char[size];
@@ -108,6 +110,7 @@ TextPool::~TextPool()
 	delete [] m_filenames;
 	delete [] m_texts;
 	delete [] m_preprocessed;
+	delete [] m_filesizes;
 	#ifdef DEBUG
 	printf("All deleted.\n");
 	#endif
@@ -198,5 +201,38 @@ void TextPool::RemoveOddCharacters(char* text, long int size)
 		// Remove upper case
 		if(text[i] >= 'A' && text[i] <= 'Z')
 			text[i] += 32;
+	}
+}
+
+long int TextPool::GetTextLength(unsigned int txt) const
+{
+	if(txt > m_textsnumber) return 0;
+	return m_filesizes[txt];
+}
+
+char* TextPool::m_grabtextcopy(unsigned int txt)
+{
+	char* cpy = new char[GetTextLength(txt)];
+	for(long int i = 0; i < GetTextLength(txt); i++)
+		cpy[i] = m_preprocessed[txt][i];
+	return cpy;
+}
+
+void TextPool::RegisterWordsOnHash(const Hashish &h)
+{
+	char* pch;
+	const char tokens[] = " \"\',.()[]<>{}?:;!-\n";
+	for(unsigned int i = 0; i < m_textsnumber; i++)
+	{
+		char* txt = m_grabtextcopy(i);
+		pch = strtok(txt, tokens);
+		printf("0x%X == 0x%X\n", txt, pch);
+
+		while(pch != NULL)
+		{
+			//h.AdicionarOcorrencia(pch, i, (pch - txt));
+			printf("%s, dist = %ld\n", pch, (pch - txt));
+			pch = strtok(NULL, tokens);
+		}
 	}
 }

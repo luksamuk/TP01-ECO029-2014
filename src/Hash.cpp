@@ -50,13 +50,13 @@ void Hashish::Celula::Adicionar(const char* item)
         contador++;
     }
 }
-bool Hashish::Celula::Ocorrencias(const char* item)
+bool Hashish::Celula::Ocorrencias(NoTexto* item, const char* palavra)
 {
     No* ponteiro = colisoes;
 
     while(ponteiro != NULL)
     {
-        if(!strcmp(ponteiro->palavra, item))
+        if(!strcmp(ponteiro->palavra, palavra))
             return true;
         ponteiro = ponteiro->prox;
     }
@@ -85,7 +85,7 @@ void Hashish::Adicionar(const char* item)
 {
     tabela[AgregarValor(item)].Adicionar(item);
 }
-void Hashish::Pesquisa(const char* item)
+void Hashish::Pesquisa(ModulodePesquisa* item)
 {
-    tabela[AgregarValor(item)].Ocorrencias(item);
+    tabela[AgregarValor(item->palavra)].Ocorrencias(item->listatexto, item->palavra);
 }

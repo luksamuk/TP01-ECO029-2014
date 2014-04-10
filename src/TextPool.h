@@ -36,7 +36,7 @@ public:
 	const char*  GetFilename(unsigned int)         const;
 	long int     GetTextLength(unsigned int)       const;
 
-	void         RegisterWordsOnHash(Hashish&);
+	void         RegisterWordsOnHash(Hashish*);
 
 	static void RemoveOddCharacters(char*, long int);
 };

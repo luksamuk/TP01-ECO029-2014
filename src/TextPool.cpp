@@ -218,22 +218,29 @@ char* TextPool::m_grabtextcopy(unsigned int txt)
 	return cpy;
 }
 
-void TextPool::RegisterWordsOnHash(Hashish &h)
+void TextPool::RegisterWordsOnHash(Hashish* h)
 {
 	char* pch;
 	const char tokens[] = " \"\',.()[]<>{}?:;!-\n";
 	for(unsigned int i = 0; i < m_textsnumber; i++)
 	{
 		char* txt = m_grabtextcopy(i);
-		pch = strtok(txt, tokens);
 		#ifdef DEBUG
 		printf("Adding" KRED " %s " KRESET "to hash...\n", GetFilename(i));
 		#endif
-
+		pch = strtok(txt, tokens);
+		#ifdef DEBUG
+		printf("Tokenized.\n");
+		#endif
 		while(pch != NULL)
 		{
-			h.Adicionar(pch, i, (pch - txt));
-			//printf(KBLU "%s" KRESET ", dist = %ld\n", pch, (pch - txt));
+			#ifdef DEBUG
+			printf("Adding word "KGRN"%s"KRESET" to hash...", pch);
+			#endif
+			h->Adicionar(pch, i, (pch - txt));
+			#ifdef DEBUG
+			printf("Ok\n");
+			#endif
 			pch = strtok(NULL, tokens);
 		}
 		#ifdef DEBUG

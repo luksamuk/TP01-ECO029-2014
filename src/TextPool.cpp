@@ -101,7 +101,7 @@ TextPool::~TextPool()
 	for(unsigned int i = 0; i < m_textsnumber; i++)
 	{
 		#ifdef DEBUG
-		printf("Deleting copy of %s...\n", m_filenames[i]);
+		printf("Deleting copy of "KGRN"%s"KRESET"...\n", m_filenames[i]);
 		#endif
 		delete [] m_filenames[i];
 		delete [] m_texts[i];
@@ -112,7 +112,7 @@ TextPool::~TextPool()
 	delete [] m_preprocessed;
 	delete [] m_filesizes;
 	#ifdef DEBUG
-	printf("All deleted.\n");
+	printf(KMAG"All deleted.\n"KRESET);
 	#endif
 }
 
@@ -195,6 +195,15 @@ void TextPool::RemoveOddCharacters(char* text, long int size)
 		case 'Ù':
 		case 'Ü':
 			text[i] = 'u';
+			break;
+
+		// Special symbols
+		case '!':
+		case '?':
+		case ':':
+		case ';':
+		case '.':
+			text[i] = ' ';
 			break;
 		default: break;
 		}

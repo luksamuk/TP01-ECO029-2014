@@ -1,6 +1,19 @@
 #ifndef TEXTPOOL_H
 #define TEXTPOOL_H
 
+#ifdef __WIN32
+// Windows não tem cores no CMD.
+// Por isso odiamos Windows.
+#define KNRM   ""
+#define KRED   ""
+#define KGRN   ""
+#define KYEL   ""
+#define KBLU   ""
+#define KMAG   ""
+#define KCYN   ""
+#define KWHT   ""
+#define KRESET ""
+#else
 #define KNRM   "\x1B[0m"
 #define KRED   "\x1B[31m"
 #define KGRN   "\x1B[32m"
@@ -10,6 +23,7 @@
 #define KCYN   "\x1B[36m"
 #define KWHT   "\x1B[37m"
 #define KRESET "\033[0m"
+
 
 
 #include "Hash.h"

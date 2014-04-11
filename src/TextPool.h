@@ -23,6 +23,7 @@
 #define KCYN   "\x1B[36m"
 #define KWHT   "\x1B[37m"
 #define KRESET "\033[0m"
+#endif
 
 
 

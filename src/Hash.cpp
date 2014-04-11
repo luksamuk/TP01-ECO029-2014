@@ -5,8 +5,11 @@
 
 NoTexto::NoTexto(unsigned int Arquivo)      /*Inicializar a lista de ocorrências e assumir um valor de identificação */
 {                                           /*através da variável Arquivo.*/
+    printf("Listaocor = NULL;\n");
     listaocor = NULL;
+    printf("Ultimaocor = listaocor;\n");
     ultimaocor = listaocor;
+    printf("prox = NULL;\n");
     prox = NULL;
     relev = 0;
     arquivo = Arquivo;
@@ -39,16 +42,21 @@ NoTexto::~NoTexto() /*Deletar os ponteiros da lista de ocorrências.*/
 }
 void NoTexto::AdicionarLocal(unsigned long localizacao)  /*Adiciona mais um local à lista de ocorrencias.*/
 {
+    printf("Adicionando nova ocorrencia no texto.\n");
     if(ultimaocor == NULL)
     {
+        printf("Adicionando primeira ocorrencia.\n");
         ultimaocor = new NoOcorrencia;
-        *ultimaocor = {NULL, localizacao};
+        ultimaocor->prox = NULL;
+        ultimaocor->local = localizacao;
     }
     else
     {
+        printf("Adicionando ultima ocorrencia.\n");
         ultimaocor->prox = new NoOcorrencia;
         ultimaocor = ultimaocor->prox;
-        *ultimaocor = {NULL, localizacao};
+        ultimaocor->prox = NULL;
+        ultimaocor->local = localizacao;
     }
     relev++;
 }
@@ -96,8 +104,12 @@ void Hashish::Celula::NoColisao::AdicionarArquivo(unsigned int arquivo, unsigned
                                                                                     /*Adicionar ocorrência.*/
     if(listatexto == NULL)
     {
-        listatexto = new NoTexto(arquivo);
-        listatexto->AdicionarLocal(local);
+        printf("Criando indexador de arquivos.\n");
+        printf("Arquivo %o.\n");
+        //listatexto = new NoTexto(arquivo);
+        printf("Lista de textos.\n");
+        //listatexto->AdicionarLocal(local);
+        printf("Indexador de arquivos criado.\n");
         return;
     }
 
@@ -116,7 +128,9 @@ void Hashish::Celula::NoColisao::AdicionarArquivo(unsigned int arquivo, unsigned
 
     if(p->prox == NULL)
     {
+        printf("Inserindo novos arquivos no indexador.\n");
         p->prox = new NoTexto(arquivo);
+        p = p->prox;
         p->AdicionarLocal(local);
     }
     else
@@ -181,9 +195,11 @@ void Hashish::Celula::AdicionarOcorrencia(char* palavra, unsigned int arquivo, u
                                                                             /*Se não, adicionar nova colisão.*/
     if(colisoes == NULL)
     {
+        printf("Adicionando primeira colisao.\n");
         colisoes = new NoColisao(palavra);
         colisoes->AdicionarArquivo(arquivo, local);
         contador++;
+        printf("Colisão adicionada.\n");
         return;
     }
 
@@ -205,6 +221,7 @@ void Hashish::Celula::AdicionarOcorrencia(char* palavra, unsigned int arquivo, u
         p->prox = new NoColisao(palavra);
         p->AdicionarArquivo(arquivo, local);
         contador++;
+        printf("\tAdicionando nova colisão.\n");
     }
     else
         p->AdicionarArquivo(arquivo, local);
@@ -253,6 +270,7 @@ unsigned int Hashish::AgregarValor(const char* palavra) /*Definir o hash da pala
 
 void Hashish::Adicionar(char* item, unsigned int arquivo, unsigned long local)  /*Adicionar dados às listas internas do hash.*/
 {
+    printf(" %d.\n", AgregarValor(item));
     tabela[AgregarValor(item)].AdicionarOcorrencia(item, arquivo, local);
 }
 void Hashish::Pesquisa(ModulodePesquisa* conteiner) /*Anular o conteiner caso nenhum resultado for encontrado durante a pesquisa.*/

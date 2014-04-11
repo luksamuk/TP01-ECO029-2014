@@ -118,7 +118,7 @@ void Hashish::Celula::NoColisao::AdicionarArquivo(unsigned int arquivo, unsigned
     {
         #ifdef DEBUG
         printf("Criando indexador de arquivos.\n");
-        printf("Arquivo %o.\n");
+        printf("Arquivo %o.\n", arquivo);
         #endif
         //listatexto = new NoTexto(arquivo);
         #ifdef DEBUG

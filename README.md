@@ -6,4 +6,4 @@ André Viana   - 25037 <br/>
 Lucas Vieira  - 24072 <br/>
 William Prado - 24015 <br/>
 
-->[PLANEJAMENTO](doc/planejamento.txt)
+->[PLANEJAMENTO](doc/Planejamento.txt)

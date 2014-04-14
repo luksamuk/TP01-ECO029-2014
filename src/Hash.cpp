@@ -7,11 +7,10 @@
 **
 */
 NoArquivo::NoArquivo() {}
-NoArquivo::NoArquivo(unsigned int index)
+NoArquivo::NoArquivo(unsigned int index)    /*Inicializar nó de arquivo com indexador.*/
 {
     Index = index;
 }
-
 
 Hashish::NoColisao::NoColisao() {}
 
@@ -24,61 +23,69 @@ Hashish::NoColisao::NoColisao(Palavra palavra)  /*Inicializar nó de colisão co
 **
 */
 
-void Hashish::Celula::Adicionar(Palavra chave, unsigned int arquivo, unsigned long local) /*Verificar se celula com a palavra já */
+void Hashish::Celula::Adicionar(Palavra chave, unsigned int arquivo, unsigned long local)
 {
-    /*existe, se não existir, criar colisão.*/
-    /*Adicionar ocorrência.*/
+    /*Verificar se celula com a palavra já
+    existe, se não existir, criar colisão.
+    Adicionar ocorrência.*/
+
     NoColisao *p;
     NoArquivo *q;
     p = ListaColisoes.Search(chave);
 
-    #ifdef DEBUG
+#ifdef DEBUG
     printf("Searching for '%s' cell collision -> %p\n", chave.str, p);
     printf("Cell contains %d collisions.\n", ListaColisoes.Length());
-    #endif
+#endif
     if(p == NULL)
     {
         NoColisao* NovoNo = new NoColisao(chave);
         p = ListaColisoes.Insert(*NovoNo, chave);
-        #ifdef DEBUG
+#ifdef DEBUG
         printf("New collision in %p.\n", p);
-        #endif
+#endif
     }
     else
     {
-        #ifdef DEBUG
+#ifdef DEBUG
         printf("Collision in %p.\n", p);
-        #endif
+#endif
     }
 
 
+    /*Adicionando ocorrência, mas antes disso é necessário verificar
+    se já existe um nó de arquivo para este indexador.*/
+
     q = p->ListaArquivos.Search(arquivo);
-    #ifdef DEBUG
+#ifdef DEBUG
     printf("Looking for file index %d -> %p.\n", arquivo, q);
     printf("File list of size %d.\n", p->ListaArquivos.Length());
-    #endif
+#endif
     if(q == NULL)
     {
         NoArquivo* NovoNo = new NoArquivo(arquivo);
         q = p->ListaArquivos.Insert(*NovoNo, arquivo);
-        #ifdef DEBUG
+#ifdef DEBUG
         printf("New file index at %p.\n", q);
-        #endif
+#endif
     }
-    else{
-    #ifdef DEBUG
-    printf("File index found in %p.\n", q);
-    #endif
+    else
+    {
+#ifdef DEBUG
+        printf("File index found in %p.\n", q);
+#endif
     }
 
+    /*Após encontrar o nó de arquivo (ou adicionar um novo),
+    insere-se uma nova ocorrência.*/
     q->ListaOcorrencias.Insert(local);
-    #ifdef DEBUG
+#ifdef DEBUG
     printf("Inserting new word location at %d in file %d.\n", local, arquivo);
-    #endif
+#endif
 }
 
 
-void Hashish::NoColisao::RetornarArquivos(ModulodePesquisa* conteiner)   /*Preencher o conteiner com a lista de textos.*/
+void Hashish::NoColisao::RetornarArquivos(ModulodePesquisa* conteiner)   /*Preencher o conteiner com as listas de ocorrências.*/
 {
 
     conteiner->Arquivos = new ModuloArquivo[ListaArquivos.Length()];    //Se a palavra foi encontrada, é certo que Length é > 0.
@@ -98,9 +105,6 @@ void Hashish::NoColisao::RetornarArquivos(ModulodePesquisa* conteiner)   /*Preen
 
 bool Hashish::Celula::Pesquisa(ModulodePesquisa* conteiner) /*Pesquisar dentro da célula por uma palavra específica.*/
 {
-    /*Se a palavra for encontrada, incorporar lista de arquivos *
-    /*no módulo de pesquisa e retornar true. Se não, false.*/
-
     NoColisao* p = ListaColisoes.Search(conteiner->Palavra_Chave);
 
     if(p!=NULL)
@@ -122,9 +126,9 @@ Hashish::Hashish(unsigned int Tamanho) /*Inicializar o hash, alocando Tamanho c�
 }
 Hashish::~Hashish() /*Esvaziar a tabela do hash.*/
 {
-    #ifdef DEBUG
+#ifdef DEBUG
     printf("Deleting hashish's cell table.\n");
-    #endif
+#endif
     delete [] tabela;
 }
 
@@ -134,9 +138,9 @@ unsigned int Hashish::AgregarValor(const char* palavra) /*Definir o hash da pala
 
     for(int c = 0; c < strlen(palavra); c++)
         retorno += palavra[c]*2;
-    #ifdef DEBUG
+#ifdef DEBUG
     printf("Value aggregated to word %s -> %d.\n", palavra, retorno%tamanho);
-    #endif
+#endif
     return retorno%tamanho;
 }
 

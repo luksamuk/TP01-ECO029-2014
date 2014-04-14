@@ -14,8 +14,8 @@
 **
 */
 
-struct ModulodePesquisa;
-struct ModuloArquivo;
+struct ModulodePesquisa;    /*Contem uma palavra chave e um vetor de ModuloArquivo.*/
+struct ModuloArquivo;   /*Cada ModuloArquivo inclui um vetor de ocorrências, um contador e o indexador do arquivo.*/
 
 struct NoArquivo    /*Contem uma lista de todas ocorrencias de uma palavra dentro de determinado arquivo de texto.*/
 {
@@ -25,7 +25,7 @@ struct NoArquivo    /*Contem uma lista de todas ocorrencias de uma palavra dentr
     VectorList<unsigned long> ListaOcorrencias;
 };
 
-struct Palavra
+struct Palavra  /*Necessário pois o template de lista é incapaz de determinar quando duas palavras são iguais.*/
 {
     char* str;
     Palavra();
@@ -76,9 +76,11 @@ struct ModuloArquivo
     unsigned int Index;
     unsigned long* Ocorrencias;
     unsigned long Contador;
+
     bool operator>(ModuloArquivo*);
     bool operator<(ModuloArquivo*);
     ModuloArquivo& operator=(const ModuloArquivo&);
+
     ~ModuloArquivo();
 };
 struct ModulodePesquisa /*Tipo base utilizado para obter informações sobre a estrutura do Hash.*/
@@ -86,6 +88,7 @@ struct ModulodePesquisa /*Tipo base utilizado para obter informações sobre a e
     char* Palavra_Chave;
     unsigned long Contador_Arquivos;
     ModuloArquivo* Arquivos;
+
     ~ModulodePesquisa();
 };
 

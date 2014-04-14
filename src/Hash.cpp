@@ -26,7 +26,6 @@ Hashish::NoColisao::~NoColisao()    /*Desalocar string de id.*/
     delete [] Palavra;
 }
 
-NoArquivo* Hashish::NoColisao::AdicionarArquivo(unsigned int){return NULL;}
 /*
 **
 */

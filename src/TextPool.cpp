@@ -244,7 +244,7 @@ void TextPool::RegisterWordsOnHash(Hashish* h)
 		while(pch != NULL)
 		{
 			#ifdef DEBUG
-			printf("Adding word "KGRN"%s"KRESET" to hash...", pch);
+			printf("Adding word "KGRN"%s"KRESET" to hash...\n", pch);
 			#endif
 			h->Adicionar(pch, i, (pch - txt));
 			#ifdef DEBUG
@@ -262,19 +262,28 @@ void TextPool::SortByRelevance(ModulodePesquisa* &m)
 {
 	if(!m) return;
 	qs_files(m->Arquivos, 0u, m->Contador_Arquivos - 1u);
+	long i, j;
+	i = 0; j = m->Contador_Arquivos-1;
+	while(i < j)
+	{
+		ModuloArquivo aux;
+		aux = m->Arquivos[i];
+		m->Arquivos[i] = m->Arquivos[j];
+		m->Arquivos[j] = aux;
+		i++; j--;
+	}
 }
 
-void TextPool::qs_files(ModuloArquivo* &m, unsigned long left, unsigned long right)
+void TextPool::qs_files(ModuloArquivo* &m, long left, long right)
 {
 	unsigned long i = left,
 	              j = right;
 	ModuloArquivo* x = &m[(left + right) / 2u],
 	               aux;
-
 	while(i <= j)
 	{
 		while(m[i] < x && i < right) i++;
-		while(x[j] > x && j > left)  j--;
+		while(m[j] > x && j > left)  j--;
 
 		if(i <= j)
 		{
@@ -309,6 +318,7 @@ void TextPool::PrintPhrase(unsigned int File, unsigned long WordDistanceFromBegi
 		  *(i-1) != '\r' &&
 		  *(i-1) != '\t' &&
 		  *(i-1) != '\0')) i--;
+	while(*i == ' ') i++;
 	while(j != textptr + (GetTextLength(File) - 1) &&
 		  j+1 <= textptr + (GetTextLength(File) - 1) &&
 		  (*(j+1) != '.' &&
@@ -321,7 +331,7 @@ void TextPool::PrintPhrase(unsigned int File, unsigned long WordDistanceFromBegi
 		  *(j+1) != '\0')) j++;
 
 	// fake tab on results
-	printf("    ");
+	printf("    \"");
 	// Print char by char
 	for(const char* c = i; c <= j; c++)
 	{
@@ -342,5 +352,5 @@ void TextPool::PrintPhrase(unsigned int File, unsigned long WordDistanceFromBegi
 		// Prints char
 		printf("%c", *c);
 	}
-	printf(KRESET "\n");
+	printf(KRESET "\"\n");
 }

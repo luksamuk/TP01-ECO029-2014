@@ -42,7 +42,7 @@ private:
 	long int* m_filesizes;
 	char* m_grabtextcopy(unsigned int);
 
-	static void qs_files(ModuloArquivo*&, unsigned long, unsigned long);
+	static void qs_files(ModuloArquivo*&, long, long);
 
 public:
 	TextPool();

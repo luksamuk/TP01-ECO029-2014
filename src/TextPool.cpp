@@ -347,7 +347,9 @@ void TextPool::PrintPhrase(unsigned int File, unsigned long WordDistanceFromBegi
 			 *c == '}'  ||
 			 *c == '>'  ||
 			 *c == ')'  ||
-			 *c == ']'))
+			 *c == ']'  ||
+			 *c == ':'  ||
+			 *c == ';'))
 		  	printf(KRESET);
 		// Prints char
 		printf("%c", *c);

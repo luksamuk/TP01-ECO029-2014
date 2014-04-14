@@ -40,7 +40,7 @@ int main(void)
 			m = new ModulodePesquisa;
 			m->Palavra_Chave = procbuf;
 			h->Pesquisa(m);
-			TextPool::SortByRelevance(m); // ordenar a lista aqui.
+			//TextPool::SortByRelevance(m); // ordenar a lista aqui.
 
 			printf("\nResultado da busca \""KCYN"%s"KRESET"\"\n", procbuf);
 			if(!m || !m->Contador_Arquivos)
@@ -55,7 +55,7 @@ int main(void)
 					printf("\n");
 				}
 			}
-			delete m;
+			//delete m;
 			m = NULL;
 
 			strcpy(procbuf, "");

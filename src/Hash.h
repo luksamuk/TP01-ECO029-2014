@@ -40,9 +40,9 @@ private:
     {
         List<NoColisao, char*> ListaColisoes;
 
+        NoColisao *p;
+        NoArquivo *q;
         void Adicionar(char*, unsigned int, unsigned long);
-        NoColisao* AdicionarColisao(char*);
-        NoArquivo* AdicionarArquivo(NoColisao*, unsigned int);
         //bool Pesquisa(ModulodePesquisa*);
     };
 
@@ -61,6 +61,8 @@ public:
 struct NoArquivo    /*Contem uma lista de todas ocorrencias de uma palavra dentro de determinado arquivo de texto.*/
 {
     unsigned int Index;
+    NoArquivo(unsigned int);
+    NoArquivo();
     VectorList<unsigned long> ListaOcorrencias;
 };
 
@@ -69,6 +71,8 @@ struct ModuloArquivo
     unsigned int Index;
     unsigned long* Ocorrencias;
     unsigned long Contador;
+    bool operator>(ModuloArquivo*);
+    bool operator<(ModuloArquivo*);
 };
 struct ModulodePesquisa /*Tipo base utilizado para obter informações sobre a estrutura do Hash.*/
 {

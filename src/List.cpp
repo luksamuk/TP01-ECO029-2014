@@ -47,7 +47,7 @@ private:
 public:
     List();
     ~List();
-    T* Insert(T*, I);
+    T* Insert(T, I);
     T* Search(I);
     T* DataVector(unsigned long*);
     unsigned long Length();
@@ -187,13 +187,13 @@ List<T,I>::~List()
 }
 
 template<typename T, typename I>
-T* List<T,I>::Insert(T* new_data, I index)
+T* List<T,I>::Insert(T new_data, I index)
 {
     if(list == NULL)
     {
         list = new node;
         list->next = NULL;
-        list->data = *new_data;
+        list->data = new_data;
         list->index = index;
         last = list;
     }
@@ -203,7 +203,7 @@ T* List<T,I>::Insert(T* new_data, I index)
         last = last->next;
         last->next = NULL;
         last->index = index;
-        last->data = *new_data;
+        last->data = new_data;
     }
     length++;
     return &last->data;

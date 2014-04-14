@@ -6,6 +6,12 @@
 /*
 **
 */
+NoArquivo::NoArquivo(){}
+NoArquivo::NoArquivo(unsigned int index)
+{
+    Index = index;
+}
+
 
 Hashish::NoColisao::NoColisao(){}
 
@@ -20,6 +26,7 @@ Hashish::NoColisao::~NoColisao()    /*Desalocar string de id.*/
     delete [] Palavra;
 }
 
+NoArquivo* Hashish::NoColisao::AdicionarArquivo(unsigned int){return NULL;}
 /*
 **
 */
@@ -27,30 +34,29 @@ Hashish::NoColisao::~NoColisao()    /*Desalocar string de id.*/
 void Hashish::Celula::Adicionar(char* palavra, unsigned int arquivo, unsigned long local) /*Verificar se celula com a palavra já */
 {                                                                                           /*existe, se não existir, criar colisão.*/
                                                                                             /*Adicionar ocorrência.*/
-    NoColisao* p = ListaColisoes.Search(palavra);
+    p = ListaColisoes.Search(palavra);
 
+    printf("Procurando por colisão da palavra %s -> %p\n", palavra, p);
     if(p == NULL)
-        p = AdicionarColisao(palavra);
+    {
+        NoColisao* NovoNo = new NoColisao(palavra);
+        p = ListaColisoes.Insert(*NovoNo, palavra);
+    }
 
+    printf("Colisão em %p\n", p);
+    q = p->ListaArquivos.Search(arquivo);
+    printf("Tamanho lista de arquivos %d.\n", p->ListaArquivos.Length());
+    printf("Procurando por arquivo com index %d -> %p\n", arquivo, q);
+    if(q == NULL)
+    {
+        NoArquivo* NovoNo = new NoArquivo(arquivo);
+        printf("Novo No em %p.\n", NovoNo);
+        q = p->ListaArquivos.Insert(*NovoNo, local);
+    }
 
-    NoArquivo* q = p->ListaArquivos.Search(arquivo);
-    if(q = NULL)
-        q = AdicionarArquivo(p, arquivo);
-
+    printf("Arquivo em %p\n", q);
     q->ListaOcorrencias.Insert(local);
-}
-
-Hashish::NoColisao* Hashish::Celula::AdicionarColisao(char* palavra)
-{
-    NoColisao* NovoNo = new NoColisao(palavra);
-    return ListaColisoes.Insert(NovoNo, palavra);
-}
-
-NoArquivo* Hashish::Celula::AdicionarArquivo(NoColisao* Colisao, unsigned int arquivo)
-{
-    NoArquivo* NovoNo = new NoArquivo;
-    NovoNo->Index = arquivo;
-    return Colisao->ListaArquivos.Insert(NovoNo, arquivo);
+    printf("Inserindo ocorrencia %d no arquivo\n", local);
 }
 
 /*
@@ -131,3 +137,5 @@ void Hashish::Pesquisa(ModulodePesquisa* conteiner) /*Anular o conteiner caso ne
 }
 */
 
+bool ModuloArquivo::operator<(ModuloArquivo* b){return true;}
+bool ModuloArquivo::operator>(ModuloArquivo* b){return true;}

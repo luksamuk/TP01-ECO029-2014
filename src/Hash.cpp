@@ -32,29 +32,49 @@ void Hashish::Celula::Adicionar(Palavra chave, unsigned int arquivo, unsigned lo
     NoArquivo *q;
     p = ListaColisoes.Search(chave);
 
-    printf("Celula contem %d colisoes\n", ListaColisoes.Length());
-    printf("STRING = %s\n", chave.str);
-    printf("Procurando por colisão da palavra %s -> %p\n", chave.str, p);
+    #ifdef DEBUG
+    printf("Searching for '%s' cell collision -> %p\n", chave.str, p);
+    printf("Cell contains %d collisions.\n", ListaColisoes.Length());
+    #endif
     if(p == NULL)
     {
         NoColisao* NovoNo = new NoColisao(chave);
         p = ListaColisoes.Insert(*NovoNo, chave);
+        #ifdef DEBUG
+        printf("New collision in %p.\n", p);
+        #endif
+    }
+    else
+    {
+        #ifdef DEBUG
+        printf("Collision in %p.\n", p);
+        #endif
     }
 
-    printf("Colisão em %p\n", p);
+
     q = p->ListaArquivos.Search(arquivo);
-    printf("Tamanho lista de arquivos %d.\n", p->ListaArquivos.Length());
-    printf("Procurando por arquivo com index %d -> %p\n", arquivo, q);
+    #ifdef DEBUG
+    printf("Looking for file index %d -> %p.\n", arquivo, q);
+    printf("File list of size %d.\n", p->ListaArquivos.Length());
+    #endif
     if(q == NULL)
     {
         NoArquivo* NovoNo = new NoArquivo(arquivo);
-        printf("Novo No em %p.\n", NovoNo);
         q = p->ListaArquivos.Insert(*NovoNo, local);
+        #ifdef DEBUG
+        printf("New file index at %p.\n", q);
+        #endif
+    }
+    else{
+    #ifdef DEBUG
+    printf("File index found in %p.\n", q);
+    #endif
     }
 
-    printf("Arquivo em %p\n", q);
     q->ListaOcorrencias.Insert(local);
-    printf("Inserindo ocorrencia %d no arquivo\n", local);
+    #ifdef DEBUG
+    printf("Inserting new word location at %d in file %d.\n", local, arquivo);
+    #endif
 }
 
 
@@ -102,7 +122,9 @@ Hashish::Hashish(unsigned int Tamanho) /*Inicializar o hash, alocando Tamanho c�
 }
 Hashish::~Hashish() /*Esvaziar a tabela do hash.*/
 {
-    printf("Deleting hashish table.\n");
+    #ifdef DEBUG
+    printf("Deleting hashish's cell table.\n");
+    #endif
     delete [] tabela;
 }
 
@@ -112,7 +134,9 @@ unsigned int Hashish::AgregarValor(const char* palavra) /*Definir o hash da pala
 
     for(int c = 0; c < strlen(palavra); c++)
         retorno += palavra[c]*pow(2, c);
-
+    #ifdef DEBUG
+    printf("\nValue aggregated to word %s -> %d.\n", palavra, retorno%tamanho);
+    #endif
     return retorno%tamanho;
 }
 
@@ -148,7 +172,6 @@ Palavra::Palavra(char* palavra)
 {
     str = new char[strlen(palavra)];
     sprintf(str, "%s", palavra);
-    printf("Construtor Palavra str = %s\n", str);
 }
 Palavra::~Palavra()
 {

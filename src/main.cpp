@@ -11,6 +11,7 @@ int main(void)
 	#endif
 
 	ModulodePesquisa* m;
+	TextPool::bs_struct* res;
 
 	unsigned int entrada;
 	printf(KRED"ATENCAO:"KRESET" Ao utilizar acentos na pesquisa, verifique se o seu"
@@ -36,27 +37,34 @@ int main(void)
 			TextPool::RemoveOddCharacters(procbuf, strlen(procbuf));
 			sscanf(procbuf, "%s", procbuf);
 
-			//m = NULL; // DEBUG ONLY!!!!! REMOVE LATER!
 			m = new ModulodePesquisa;
 			m->Palavra_Chave = procbuf;
 			h->Pesquisa(m);
-			//TextPool::SortByRelevance(m); // ordenar a lista aqui.
 
-			printf("\nResultado da busca \""KCYN"%s"KRESET"\"\n", procbuf);
+			printf("\nResultado da busca \""KCYN"%s"KRESET"\"\n", buf);
 			if(!m || !m->Contador_Arquivos)
 				printf(KRED"ERRO: "KRESET"Palavra nao encontrada.\n\n");
 			else
 			{
+				ModuloArquivo* mod;
+				res = TextPool::SortByRelevance(m);
 				for(unsigned long i = 0; i < m->Contador_Arquivos; i++)
 				{
-					printf("%lu - " KGRN "%s" KRESET "\n", i + 1, t.GetFilename(m->Arquivos[i].Index));
-					for(unsigned long j = 0; j < m->Arquivos[i].Contador; j++)
-						t.PrintPhrase(m->Arquivos[i].Index, m->Arquivos[i].Ocorrencias[j]);
+					for(unsigned long j = 0; j < m->Contador_Arquivos; j++)
+						if(res[i].idx == m->Arquivos[j].Index)
+						{
+							mod = &m->Arquivos[j];
+							break;
+						}
+
+					printf("%lu - " KGRN "%s" KRESET "\n", i + 1, t.GetFilename(mod->Index));
+					for(unsigned long j = 0; j < mod->Contador; j++)
+						t.PrintPhrase(mod->Index, mod->Ocorrencias[j]);
 					printf("\n");
 				}
 			}
 			//delete m;
-			m = NULL;
+			//m = NULL;
 
 			strcpy(procbuf, "");
 			break;

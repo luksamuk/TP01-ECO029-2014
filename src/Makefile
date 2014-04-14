@@ -3,8 +3,8 @@ EXEC = TP01
 D_FLAGS = -g -DDEBUG
 
 # Remova D_FLAGS se não quiser rodar em modo DEBUG
-#CXX_FLAGS = $(D_FLAGS)
-CXX_FLAGS = -O3
+CXX_FLAGS = $(D_FLAGS)
+#CXX_FLAGS = -O3
 
 all: hash.o list.o textpool.o main.o
 	$(CXX) hash.o list.o textpool.o main.o -o $(EXEC) $(CXX_FLAGS)

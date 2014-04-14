@@ -258,46 +258,37 @@ void TextPool::RegisterWordsOnHash(Hashish* h)
 	}
 }
 
-void TextPool::SortByRelevance(ModulodePesquisa* &m)
+TextPool::bs_struct* TextPool::SortByRelevance(ModulodePesquisa* &m)
 {
-	if(!m) return;
-	qs_files(m->Arquivos, 0u, m->Contador_Arquivos - 1u);
-	long i, j;
-	i = 0; j = m->Contador_Arquivos-1;
-	while(i < j)
-	{
-		ModuloArquivo aux;
-		aux = m->Arquivos[i];
-		m->Arquivos[i] = m->Arquivos[j];
-		m->Arquivos[j] = aux;
-		i++; j--;
-	}
+	if(!m) return NULL;
+
+	bs_struct* order_files = new bs_struct[m->Contador_Arquivos];
+	for(unsigned long i = 1; i <= m->Contador_Arquivos; i++)
+		{
+			order_files[i].relevance = m->Arquivos[i].Contador;
+		  	order_files[i].idx = m->Arquivos[i].Index;
+		}
+	//bs(order_files, m->Contador_Arquivos);
+	return order_files;
 }
 
-void TextPool::qs_files(ModuloArquivo* &m, long left, long right)
+void TextPool::bs(bs_struct m[], unsigned long size)
 {
-	unsigned long i = left,
-	              j = right;
-	ModuloArquivo* x = &m[(left + right) / 2u],
-	               aux;
-	while(i <= j)
+	//unsigned long k = size - 1;
+	bs_struct aux;
+	for(unsigned long i = 0; i < size+1; i++)
 	{
-		while(m[i] < x && i < right) i++;
-		while(m[j] > x && j > left)  j--;
-
-		if(i <= j)
+		for(unsigned long j = 0; j < size; j++)
 		{
-			aux = m[i];
-			m[i] = m[j];
-			m[j] = aux;
-			i++; j--;
+			if(m[j].relevance < m[j + 1].relevance)
+			{
+				aux = m[j];
+				m[j] = m[j + 1];
+				m[j + 1] = aux;
+			}
 		}
+		size--;
 	}
-
-	if(j > left)
-		qs_files(m, left, j);
-	if(i < right)
-		qs_files(m, i, right);
 }
 
 void TextPool::PrintPhrase(unsigned int File, unsigned long WordDistanceFromBeginning) const

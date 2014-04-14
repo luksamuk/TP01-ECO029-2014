@@ -34,6 +34,12 @@
 
 class TextPool
 {
+public:
+	struct bs_struct
+	{
+		unsigned long relevance;
+		unsigned int  idx;
+	};
 private:
 	unsigned int m_textsnumber;
 	char** m_filenames,
@@ -42,7 +48,7 @@ private:
 	long int* m_filesizes;
 	char* m_grabtextcopy(unsigned int);
 
-	static void qs_files(ModuloArquivo*&, long, long);
+	static void bs(bs_struct[], unsigned long);
 
 public:
 	TextPool();
@@ -58,7 +64,7 @@ public:
 	void         PrintPhrase(unsigned int File, unsigned long WordDistanceFromBeginning) const;
 
 	static void RemoveOddCharacters(char*, long int);
-	static void SortByRelevance(ModulodePesquisa*&);
+	static bs_struct* SortByRelevance(ModulodePesquisa*&);
 };
 
 

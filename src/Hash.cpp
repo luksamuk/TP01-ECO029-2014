@@ -90,8 +90,10 @@ void Hashish::NoColisao::RetornarArquivos(ModulodePesquisa* conteiner)   /*Preen
     for(int c = 0; c < conteiner->Contador_Arquivos; c++)
     {
         conteiner->Arquivos[c].Index = arq[c].Index;
-        printf("Indexador = %d", arq[c].Index);
+        printf("Indexador = %d\n", conteiner->Arquivos[c].Index);
+        printf("Ocorrencias %p -> ", conteiner->Arquivos[c].Ocorrencias);
         conteiner->Arquivos[c].Ocorrencias = arq[c].ListaOcorrencias.DataVector(&conteiner->Arquivos[c].Contador);
+        printf("%p.\n",conteiner->Arquivos[c].Ocorrencias);
     }
 }
 
@@ -159,15 +161,15 @@ void Hashish::Pesquisa(ModulodePesquisa* conteiner) /*Anular o conteiner caso ne
     printf("tabela[valor] %p\n", &tabela[valor]);
     if(tabela[valor].Pesquisa(conteiner)) return;
 
-    //delete conteiner;
-    conteiner = NULL;
+    conteiner->Arquivos = NULL;
+    conteiner->Contador_Arquivos = 0;
     printf("Palavra nao encontrada.\n");
 }
 
 ModulodePesquisa::~ModulodePesquisa()
 {
-    delete [] Arquivos;
-    delete [] Palavra_Chave;
+    //delete [] Arquivos;
+    //delete [] Palavra_Chave;
 }
 bool ModuloArquivo::operator<(ModuloArquivo* b)
 {
@@ -189,8 +191,8 @@ ModuloArquivo& ModuloArquivo::operator=(const ModuloArquivo& b)
 }
 ModuloArquivo::~ModuloArquivo()
 {
-    delete [] Ocorrencias;
-    Contador = 0;
+    //delete [] Ocorrencias;
+    //Contador = 0;
 }
 Palavra::Palavra() {}
 Palavra::Palavra(char* palavra)

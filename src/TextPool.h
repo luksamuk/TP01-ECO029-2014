@@ -41,6 +41,9 @@ private:
 	    ** m_preprocessed;
 	long int* m_filesizes;
 	char* m_grabtextcopy(unsigned int);
+
+	static void qs_files(ModuloArquivo*&, unsigned long, unsigned long);
+
 public:
 	TextPool();
 	~TextPool();
@@ -52,8 +55,10 @@ public:
 	long int     GetTextLength(unsigned int)       const;
 
 	void         RegisterWordsOnHash(Hashish*);
+	void         PrintPhrase(unsigned int File, unsigned long WordDistanceFromBeginning) const;
 
 	static void RemoveOddCharacters(char*, long int);
+	static void SortByRelevance(ModulodePesquisa*&);
 };
 
 

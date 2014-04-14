@@ -257,3 +257,77 @@ void TextPool::RegisterWordsOnHash(Hashish* h)
 		#endif
 	}
 }
+
+void TextPool::SortByRelevance(ModulodePesquisa* &m)
+{
+	if(!m) return;
+	qs_files(m->Arquivos, 0u, m->Contador_Arquivos - 1u);
+}
+
+void TextPool::qs_files(ModuloArquivo* &m, unsigned long left, unsigned long right)
+{
+	unsigned long i = left,
+	              j = right;
+	ModuloArquivo* x = &m[(left + right) / 2u],
+	               aux;
+
+	while(i <= j)
+	{
+		while(m[i] < x && i < right) i++;
+		while(x[j] > x && j > left)  j--;
+
+		if(i <= j)
+		{
+			aux = m[i];
+			m[i] = m[j];
+			m[j] = aux;
+			i++; j--;
+		}
+	}
+
+	if(j > left)
+		qs_files(m, left, j);
+	if(i < right)
+		qs_files(m, i, right);
+}
+
+void TextPool::PrintPhrase(unsigned int File, unsigned long WordDistanceFromBeginning) const
+{
+	const char* textptr,
+	          * i,
+	          * j;
+
+	textptr = GetText(File);
+	i = j = (textptr + WordDistanceFromBeginning);
+	// Find borders of phrase
+	while(i != textptr &&
+		  (*i != '.' ||
+		  *i != ',' ||
+		  *i != '?' ||
+		  *i != '!')) i--;
+	while(j != textptr + (GetTextLength(File) - 1) &&
+		  (*j != '.' ||
+		  *j != ',' ||
+		  *j != '?' ||
+		  *j != '!')) j++;
+
+	// fake tab on results
+	printf("    ");
+	// Print char by char
+	for(const char* c = i; c <= j; c++)
+	{
+		// Start marking text
+		if(c == (textptr + WordDistanceFromBeginning))
+			printf(KCYN);
+		// Prints char
+		printf("%c", *c);
+		// Stops marking text
+		if(c > (textptr + WordDistanceFromBeginning) &&
+			(*c != '.' ||
+		  	*c != ',' ||
+		  	*c != '?' ||
+		  	*c != '!'))
+		  	printf(KRESET);
+	}
+	printf(KRESET "\n");
+}

@@ -6,12 +6,14 @@ int main(void)
 	TextPool t;
 	Hashish h(10000);
 	t.RegisterWordsOnHash(&h);
-	printf("Done with adding shit.\n");
-/*
+	#ifdef DEBUG
+	printf("Done with adding" KRED "shit.\n" KRESET);
+	#endif
+
 	ModulodePesquisa* m;
 	unsigned int entrada;
-	printf(KRED"ATENCAO:"KRESET" Verifique se o seu terminal ou prompt de comando "
-		   "utiliza codificacao ANSI/WINDOWS-1252.\n");
+	printf(KRED"ATENCAO:"KRESET" Ao utilizar acentos na pesquisa, verifique se o seu"
+		"terminal ou prompt de comando utiliza codificacao ANSI/WINDOWS-1252.\n");
 
 	do
 	{
@@ -33,22 +35,32 @@ int main(void)
 			TextPool::RemoveOddCharacters(procbuf, strlen(procbuf));
 			sscanf(procbuf, "%s", procbuf);
 
-
-			m = new ModulodePesquisa;
-			m->Palavra_Chave = procbuf;
-			h.Pesquisa(m);
+			m = NULL; // DEBUG ONLY!!!!! REMOVE LATER!
+			//m = new ModulodePesquisa;
+			//m->Palavra_Chave = procbuf;
+			//h.Pesquisa(m);
+			TextPool::SortByRelevance(m); // ordenar a lista aqui.
 
 			printf("\nResultado da busca \""KCYN"%s"KRESET"\"\n", m->palavra);
 			if(!m->listatexto)
 				printf(KRED"ERRO: "KRESET"Palavra nao encontrada.\n\n");
 			else
 			{
-
+				for(unsigned long i = 0; i < m->Contador_Arquivos; i++)
+				{
+					printf("%u - " KGRN "%s" KRESET "\n", i + 1, t.GetFilename(m[i].Index));
+					for(unsigned long j = 0; j < m[i].Contador; j++)
+						t.PrintPhrase(m[i].Index, m[i].Ocorrencias[j])
+					printf("\n");
+				}
 			}
+			delete m;
+			m = NULL;
 
 			strcpy(procbuf, "");
 			break;
 		case 2: // Pesquisa por frase
+			printf(KRED "ERRO: " KRESET "Funcao nao implementada. Desculpe pela inconveniencia.\n");
 			break;
 		case 0: // Sair
 			printf(KGRN"Saindo...\n"KRESET);
@@ -60,6 +72,5 @@ int main(void)
 	}
 	while(entrada != 0);
 
-*/
 	return 0;
 }

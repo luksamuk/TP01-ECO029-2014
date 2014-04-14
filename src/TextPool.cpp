@@ -130,7 +130,7 @@ const char* TextPool::GetPreprocessedText(unsigned int idx) const
 const char* TextPool::GetText(unsigned int idx) const
 {
 	if(m_textsnumber < idx) return NULL;
-	return m_preprocessed[idx];
+	return m_texts[idx];
 }
 
 const char* TextPool::GetFilename(unsigned int idx) const
@@ -301,15 +301,24 @@ void TextPool::PrintPhrase(unsigned int File, unsigned long WordDistanceFromBegi
 	i = j = (textptr + WordDistanceFromBeginning);
 	// Find borders of phrase
 	while(i != textptr &&
-		  (*i != '.' &&
-		  *i != ',' &&
-		  *i != '?' &&
-		  *i != '!')) i--;
+		  (*(i-1) != '.' &&
+		  *(i-1) != ',' &&
+		  *(i-1) != '?' &&
+		  *(i-1) != '!' &&
+		  *(i-1) != '\n' &&
+		  *(i-1) != '\r' &&
+		  *(i-1) != '\t' &&
+		  *(i-1) != '\0')) i--;
 	while(j != textptr + (GetTextLength(File) - 1) &&
-		  (*j != '.' &&
-		  *j != ',' &&
-		  *j != '?' &&
-		  *j != '!')) j++;
+		  j+1 <= textptr + (GetTextLength(File) - 1) &&
+		  (*(j+1) != '.' &&
+		  *(j+1) != ',' &&
+		  *(j+1) != '?' &&
+		  *(j+1) != '!' &&
+		  *(j+1) != '\n' &&
+		  *(j+1) != '\r' &&
+		  *(j+1) != '\t' &&
+		  *(j+1) != '\0')) j++;
 
 	// fake tab on results
 	printf("    ");
@@ -321,7 +330,14 @@ void TextPool::PrintPhrase(unsigned int File, unsigned long WordDistanceFromBegi
 			printf(KCYN);
 		// Stops marking text
 		else if(c > (textptr + WordDistanceFromBeginning) &&
-			(*c < 'A' || *c > 'Z') || (*c < 'a' || *c > 'z') || (*c < '0' || *c > '9'))
+			(*c == ' '  ||
+			 *c == '\"' ||
+			 *c == '\'' ||
+			 *c == '-'  ||
+			 *c == '}'  ||
+			 *c == '>'  ||
+			 *c == ')'  ||
+			 *c == ']'))
 		  	printf(KRESET);
 		// Prints char
 		printf("%c", *c);

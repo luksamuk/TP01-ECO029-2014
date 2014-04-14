@@ -16,7 +16,24 @@
 
 struct ModulodePesquisa;
 struct ModuloArquivo;
-struct NoArquivo;
+
+struct NoArquivo    /*Contem uma lista de todas ocorrencias de uma palavra dentro de determinado arquivo de texto.*/
+{
+    unsigned int Index;
+    NoArquivo(unsigned int);
+    NoArquivo();
+    VectorList<unsigned long> ListaOcorrencias;
+};
+
+struct Palavra
+{
+    char* str;
+    Palavra();
+    Palavra(char*);
+    ~Palavra();
+
+    bool operator==(Palavra);
+};
 
 class Hashish
 {
@@ -28,21 +45,20 @@ private:
 
     struct NoColisao
     {
-        char* Palavra;
+        Palavra id;
         List<NoArquivo, unsigned int> ListaArquivos;
 
-        NoColisao(const char*);
+        NoColisao(Palavra);
         NoColisao();
-        ~NoColisao();
         //void RetornarArquivos(ModulodePesquisa*);
     };
     struct Celula
     {
-        List<NoColisao, char*> ListaColisoes;
+        List<NoColisao, Palavra> ListaColisoes;
 
         NoColisao *p;
         NoArquivo *q;
-        void Adicionar(char*, unsigned int, unsigned long);
+        void Adicionar(Palavra, unsigned int, unsigned long);
         //bool Pesquisa(ModulodePesquisa*);
     };
 
@@ -55,15 +71,6 @@ public:
     ~Hashish();
     void Adicionar(char*, unsigned int, unsigned long);
     //void Pesquisa(ModulodePesquisa*);
-};
-
-
-struct NoArquivo    /*Contem uma lista de todas ocorrencias de uma palavra dentro de determinado arquivo de texto.*/
-{
-    unsigned int Index;
-    NoArquivo(unsigned int);
-    NoArquivo();
-    VectorList<unsigned long> ListaOcorrencias;
 };
 
 struct ModuloArquivo

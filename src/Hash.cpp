@@ -15,31 +15,28 @@ NoArquivo::NoArquivo(unsigned int index)
 
 Hashish::NoColisao::NoColisao(){}
 
-Hashish::NoColisao::NoColisao(const char* palavra)  /*Inicializar nó de colisão com string de id.*/
+Hashish::NoColisao::NoColisao(Palavra palavra)  /*Inicializar nó de colisão com string de id.*/
 {
-    Palavra = new char[strlen(palavra)];
-    sprintf(Palavra, "%s", palavra);
-}
-
-Hashish::NoColisao::~NoColisao()    /*Desalocar string de id.*/
-{
-    delete [] Palavra;
+    id = palavra;
 }
 
 /*
 **
 */
 
-void Hashish::Celula::Adicionar(char* palavra, unsigned int arquivo, unsigned long local) /*Verificar se celula com a palavra já */
+void Hashish::Celula::Adicionar(Palavra chave, unsigned int arquivo, unsigned long local) /*Verificar se celula com a palavra já */
 {                                                                                           /*existe, se não existir, criar colisão.*/
                                                                                             /*Adicionar ocorrência.*/
-    p = ListaColisoes.Search(palavra);
 
-    printf("Procurando por colisão da palavra %s -> %p\n", palavra, p);
+    p = ListaColisoes.Search(chave);
+
+    printf("Celula contem %d colisoes\n", ListaColisoes.Length());
+        printf("STRING = %s\n", chave.str);
+    printf("Procurando por colisão da palavra %s -> %p\n", chave.str, p);
     if(p == NULL)
     {
-        NoColisao* NovoNo = new NoColisao(palavra);
-        p = ListaColisoes.Insert(*NovoNo, palavra);
+        NoColisao* NovoNo = new NoColisao(chave);
+        p = ListaColisoes.Insert(*NovoNo, chave);
     }
 
     printf("Colisão em %p\n", p);
@@ -126,7 +123,8 @@ unsigned int Hashish::AgregarValor(const char* palavra) /*Definir o hash da pala
 
 void Hashish::Adicionar(char* item, unsigned int arquivo, unsigned long local)  /*Adicionar dados às listas internas do hash.*/
 {
-    tabela[AgregarValor(item)].Adicionar(item, arquivo, local);
+    Palavra chave(item);
+    tabela[AgregarValor(item)].Adicionar(chave, arquivo, local);
 }/*
 void Hashish::Pesquisa(ModulodePesquisa* conteiner) /*Anular o conteiner caso nenhum resultado for encontrado durante a pesquisa.
 {
@@ -138,3 +136,23 @@ void Hashish::Pesquisa(ModulodePesquisa* conteiner) /*Anular o conteiner caso ne
 
 bool ModuloArquivo::operator<(ModuloArquivo* b){return true;}
 bool ModuloArquivo::operator>(ModuloArquivo* b){return true;}
+
+Palavra::Palavra(){}
+Palavra::Palavra(char* palavra)
+{
+    str = new char[strlen(palavra)];
+    sprintf(str, "%s", palavra);
+    printf("Construtor Palavra str = %s\n", str);
+}
+Palavra::~Palavra()
+{
+    //delete str;
+}
+
+bool Palavra::operator==(Palavra p)
+{
+    if(!strcmp(str, p.str))
+        return true;
+    return false;
+}
+

@@ -4,8 +4,8 @@
 int main(void)
 {
 	TextPool t;
-	Hashish h(10000);
-	t.RegisterWordsOnHash(&h);
+	Hashish* h = new Hashish(10000);
+	t.RegisterWordsOnHash(h);
 	#ifdef DEBUG
 	printf("Done with adding" KRED "shit.\n" KRESET);
 	#endif
@@ -39,18 +39,18 @@ int main(void)
 			//m = new ModulodePesquisa;
 			//m->Palavra_Chave = procbuf;
 			//h.Pesquisa(m);
-			TextPool::SortByRelevance(m); // ordenar a lista aqui.
+			//TextPool::SortByRelevance(m); // ordenar a lista aqui.
 
-			printf("\nResultado da busca \""KCYN"%s"KRESET"\"\n", m->palavra);
-			if(!m->listatexto)
+			printf("\nResultado da busca \""KCYN"%s"KRESET"\"\n", procbuf);
+			if(!m || !m->Contador_Arquivos)
 				printf(KRED"ERRO: "KRESET"Palavra nao encontrada.\n\n");
 			else
 			{
 				for(unsigned long i = 0; i < m->Contador_Arquivos; i++)
 				{
-					printf("%u - " KGRN "%s" KRESET "\n", i + 1, t.GetFilename(m[i].Index));
-					for(unsigned long j = 0; j < m[i].Contador; j++)
-						t.PrintPhrase(m[i].Index, m[i].Ocorrencias[j])
+					printf("%lu - " KGRN "%s" KRESET "\n", i + 1, t.GetFilename(m->Arquivos[i].Index));
+					for(unsigned long j = 0; j < m->Arquivos[i].Contador; j++)
+						t.PrintPhrase(m->Arquivos[i].Index, m->Arquivos[i].Ocorrencias[j]);
 					printf("\n");
 				}
 			}
@@ -60,7 +60,9 @@ int main(void)
 			strcpy(procbuf, "");
 			break;
 		case 2: // Pesquisa por frase
-			printf(KRED "ERRO: " KRESET "Funcao nao implementada. Desculpe pela inconveniencia.\n");
+			printf(KRED "ERRO: " KRESET "Funcao nao implementada. Desculpe pela inconveniencia.\n"
+				"Para mais informacoes sobre o ocorrido, visite " KYEL "http://www.aiquedeliciacara.com/\n"
+				KRESET);
 			break;
 		case 0: // Sair
 			printf(KGRN"Saindo...\n"KRESET);

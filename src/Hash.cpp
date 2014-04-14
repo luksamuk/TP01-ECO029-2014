@@ -137,7 +137,7 @@ unsigned int Hashish::AgregarValor(const char* palavra) /*Definir o hash da pala
     unsigned int retorno = 0;
 
     for(int c = 0; c < strlen(palavra); c++)
-        retorno += palavra[c]*2;
+        retorno += palavra[c]*pow(2, c);
 #ifdef DEBUG
     printf("Value aggregated to word %s -> %d.\n", palavra, retorno%tamanho);
 #endif

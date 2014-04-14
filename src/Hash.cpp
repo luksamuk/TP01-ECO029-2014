@@ -60,7 +60,7 @@ void Hashish::Celula::Adicionar(Palavra chave, unsigned int arquivo, unsigned lo
     if(q == NULL)
     {
         NoArquivo* NovoNo = new NoArquivo(arquivo);
-        q = p->ListaArquivos.Insert(*NovoNo, local);
+        q = p->ListaArquivos.Insert(*NovoNo, arquivo);
         #ifdef DEBUG
         printf("New file index at %p.\n", q);
         #endif
@@ -85,6 +85,8 @@ void Hashish::NoColisao::RetornarArquivos(ModulodePesquisa* conteiner)   /*Preen
     conteiner->Contador_Arquivos = ListaArquivos.Length();
     NoArquivo* arq = ListaArquivos.DataVector(NULL);
 
+    printf("Retornando arquivos.\n");
+    printf("Contador de Arquivos -> %d", conteiner->Contador_Arquivos);
     for(int c = 0; c < conteiner->Contador_Arquivos; c++)
     {
         conteiner->Arquivos[c].Index = arq[c].Index;
@@ -100,16 +102,18 @@ bool Hashish::Celula::Pesquisa(ModulodePesquisa* conteiner) /*Pesquisar dentro d
 {
     /*Se a palavra for encontrada, incorporar lista de arquivos *
     /*no módulo de pesquisa e retornar true. Se não, false.*/
+
+    printf("Procurando nó de colisao da palavra %s", conteiner->Palavra_Chave);
     NoColisao* p = ListaColisoes.Search(conteiner->Palavra_Chave);
 
-    if(p)
+    if(p!=NULL)
     {
+        printf("Palavra nao encontrada.\n");
         p->RetornarArquivos(conteiner);
         return true;
     }
     return false;
 }
-
 
 /*
 **
@@ -133,9 +137,9 @@ unsigned int Hashish::AgregarValor(const char* palavra) /*Definir o hash da pala
     unsigned int retorno = 0;
 
     for(int c = 0; c < strlen(palavra); c++)
-        retorno += palavra[c]*pow(2, c);
+        retorno += palavra[c]*2;
     #ifdef DEBUG
-    printf("\nValue aggregated to word %s -> %d.\n", palavra, retorno%tamanho);
+    printf("Value aggregated to word %s -> %d.\n", palavra, retorno%tamanho);
     #endif
     return retorno%tamanho;
 }
@@ -148,9 +152,17 @@ void Hashish::Adicionar(char* item, unsigned int arquivo, unsigned long local)  
 }
 void Hashish::Pesquisa(ModulodePesquisa* conteiner) /*Anular o conteiner caso nenhum resultado for encontrado durante a pesquisa.*/
 {
-    if(tabela[AgregarValor(conteiner->Palavra_Chave)].Pesquisa(conteiner))
-        return;
-    conteiner = NULL;
+    unsigned int valor = AgregarValor(conteiner->Palavra_Chave);
+
+    printf("valor %lu\n");
+    printf("tabela[valor] %p", &tabela[2]);
+    if(tabela[2].Pesquisa(conteiner)) return;
+
+    if(conteiner)
+    {
+        delete conteiner;
+        conteiner = NULL;
+    }
 }
 
 
@@ -165,6 +177,12 @@ bool ModuloArquivo::operator>(ModuloArquivo* b)
     if(Contador > b->Contador)
         return true;
     return false;
+}
+ModuloArquivo& ModuloArquivo::operator=(const ModuloArquivo& b)
+{
+    Ocorrencias = b.Ocorrencias;
+    Index = b.Index;
+    Contador = b.Contador;
 }
 
 Palavra::Palavra() {}

@@ -6,14 +6,14 @@
 /*
 **
 */
-NoArquivo::NoArquivo(){}
+NoArquivo::NoArquivo() {}
 NoArquivo::NoArquivo(unsigned int index)
 {
     Index = index;
 }
 
 
-Hashish::NoColisao::NoColisao(){}
+Hashish::NoColisao::NoColisao() {}
 
 Hashish::NoColisao::NoColisao(Palavra palavra)  /*Inicializar nó de colisão com string de id.*/
 {
@@ -25,13 +25,15 @@ Hashish::NoColisao::NoColisao(Palavra palavra)  /*Inicializar nó de colisão co
 */
 
 void Hashish::Celula::Adicionar(Palavra chave, unsigned int arquivo, unsigned long local) /*Verificar se celula com a palavra já */
-{                                                                                           /*existe, se não existir, criar colisão.*/
-                                                                                            /*Adicionar ocorrência.*/
-
+{
+    /*existe, se não existir, criar colisão.*/
+    /*Adicionar ocorrência.*/
+    NoColisao *p;
+    NoArquivo *q;
     p = ListaColisoes.Search(chave);
 
     printf("Celula contem %d colisoes\n", ListaColisoes.Length());
-        printf("STRING = %s\n", chave.str);
+    printf("STRING = %s\n", chave.str);
     printf("Procurando por colisão da palavra %s -> %p\n", chave.str, p);
     if(p == NULL)
     {
@@ -55,45 +57,39 @@ void Hashish::Celula::Adicionar(Palavra chave, unsigned int arquivo, unsigned lo
     printf("Inserindo ocorrencia %d no arquivo\n", local);
 }
 
-/*
-void Hashish::Celula::NoColisao::RetornarArquivos(ModulodePesquisa* conteiner)   /*Preencher o conteiner com a lista de textos.
+
+void Hashish::NoColisao::RetornarArquivos(ModulodePesquisa* conteiner)   /*Preencher o conteiner com a lista de textos.*/
 {
-    conteiner->num_ocorrencias = 0;
-    NoTexto* p = listatexto;
 
-    while(p != NULL)
+    conteiner->Arquivos = new ModuloArquivo[ListaArquivos.Length()];    //Se a palavra foi encontrada, é certo que Length é > 0.
+    conteiner->Contador_Arquivos = ListaArquivos.Length();
+    NoArquivo* arq = ListaArquivos.DataVector(NULL);
+
+    for(int c = 0; c < conteiner->Contador_Arquivos; c++)
     {
-        conteiner->num_ocorrencias += p->relev;
-        p = p->prox;
+        conteiner->Arquivos[c].Index = arq[c].Index;
+        conteiner->Arquivos[c].Ocorrencias = arq[c].ListaOcorrencias.DataVector(&conteiner->Arquivos[c].Contador);
     }
-
-    conteiner->listatexto = listatexto;
 }
-*/
+
 /*
 **
 */
 
+bool Hashish::Celula::Pesquisa(ModulodePesquisa* conteiner) /*Pesquisar dentro da célula por uma palavra específica.*/
+{
+    /*Se a palavra for encontrada, incorporar lista de arquivos *
+    /*no módulo de pesquisa e retornar true. Se não, false.*/
+    NoColisao* p = ListaColisoes.Search(conteiner->Palavra_Chave);
 
-
-/*
-bool Hashish::Celula::Pesquisa(ModulodePesquisa* conteiner) /*Pesquisar dentro da célula por uma palavra específica.
-{                                                           /*Se a palavra for encontrada, incorporar lista de arquivos *
-                                                            /*no módulo de pesquisa e retornar true. Se não, false.*
-    NoColisao* p = colisoes;
-
-    while(p != NULL)
+    if(p)
     {
-        if(!strcmp(p->palavra, conteiner->palavra))
-        {
-            p->RetornarArquivos(conteiner);
-            return true;
-        }
-        p = p->prox;
+        p->RetornarArquivos(conteiner);
+        return true;
     }
     return false;
 }
-*/
+
 
 /*
 **
@@ -125,19 +121,29 @@ void Hashish::Adicionar(char* item, unsigned int arquivo, unsigned long local)  
 {
     Palavra chave(item);
     tabela[AgregarValor(item)].Adicionar(chave, arquivo, local);
-}/*
-void Hashish::Pesquisa(ModulodePesquisa* conteiner) /*Anular o conteiner caso nenhum resultado for encontrado durante a pesquisa.
+}
+void Hashish::Pesquisa(ModulodePesquisa* conteiner) /*Anular o conteiner caso nenhum resultado for encontrado durante a pesquisa.*/
 {
     if(tabela[AgregarValor(conteiner->Palavra_Chave)].Pesquisa(conteiner))
         return;
     conteiner = NULL;
 }
-*/
 
-bool ModuloArquivo::operator<(ModuloArquivo* b){return true;}
-bool ModuloArquivo::operator>(ModuloArquivo* b){return true;}
 
-Palavra::Palavra(){}
+bool ModuloArquivo::operator<(ModuloArquivo* b)
+{
+    if(Contador < b->Contador)
+        return true;
+    return false;
+}
+bool ModuloArquivo::operator>(ModuloArquivo* b)
+{
+    if(Contador > b->Contador)
+        return true;
+    return false;
+}
+
+Palavra::Palavra() {}
 Palavra::Palavra(char* palavra)
 {
     str = new char[strlen(palavra)];

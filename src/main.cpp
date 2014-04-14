@@ -11,6 +11,7 @@ int main(void)
 	#endif
 
 	ModulodePesquisa* m;
+
 	unsigned int entrada;
 	printf(KRED"ATENCAO:"KRESET" Ao utilizar acentos na pesquisa, verifique se o seu"
 		"terminal ou prompt de comando utiliza codificacao ANSI/WINDOWS-1252.\n");
@@ -35,11 +36,11 @@ int main(void)
 			TextPool::RemoveOddCharacters(procbuf, strlen(procbuf));
 			sscanf(procbuf, "%s", procbuf);
 
-			m = NULL; // DEBUG ONLY!!!!! REMOVE LATER!
-			//m = new ModulodePesquisa;
-			//m->Palavra_Chave = procbuf;
-			//h.Pesquisa(m);
-			//TextPool::SortByRelevance(m); // ordenar a lista aqui.
+			//m = NULL; // DEBUG ONLY!!!!! REMOVE LATER!
+			m = new ModulodePesquisa;
+			m->Palavra_Chave = procbuf;
+			h->Pesquisa(m);
+			TextPool::SortByRelevance(m); // ordenar a lista aqui.
 
 			printf("\nResultado da busca \""KCYN"%s"KRESET"\"\n", procbuf);
 			if(!m || !m->Contador_Arquivos)

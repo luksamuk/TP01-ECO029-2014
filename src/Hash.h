@@ -50,16 +50,14 @@ private:
 
         NoColisao(Palavra);
         NoColisao();
-        //void RetornarArquivos(ModulodePesquisa*);
+        void RetornarArquivos(ModulodePesquisa*);
     };
     struct Celula
     {
         List<NoColisao, Palavra> ListaColisoes;
 
-        NoColisao *p;
-        NoArquivo *q;
         void Adicionar(Palavra, unsigned int, unsigned long);
-        //bool Pesquisa(ModulodePesquisa*);
+        bool Pesquisa(ModulodePesquisa*);
     };
 
     Celula* tabela;
@@ -70,7 +68,7 @@ public:
     Hashish(unsigned int);
     ~Hashish();
     void Adicionar(char*, unsigned int, unsigned long);
-    //void Pesquisa(ModulodePesquisa*);
+    void Pesquisa(ModulodePesquisa*);
 };
 
 struct ModuloArquivo

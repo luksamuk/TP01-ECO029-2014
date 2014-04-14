@@ -1,3 +1,6 @@
-tests/test.txt
-tests/test2.txt
-tests/pangrama.txt
+tests/eggman_hates_furries.txt
+tests/samba_de_uma_nota_so.txt
+tests/pangramas.txt
+tests/lorem_ipsum.txt
+tests/tabacaria.txt
+tests/braid-epilogue.txt

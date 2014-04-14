@@ -7,14 +7,14 @@ int main(void)
 	Hashish* h = new Hashish(10);
 	t.RegisterWordsOnHash(h);
 	#ifdef DEBUG
-	printf("Done with adding" KRED "shit.\n" KRESET);
+	printf("Done with adding " KRED "shit.\n" KRESET);
 	#endif
 
 	ModulodePesquisa* m;
 
 	unsigned int entrada;
 	printf(KRED"ATENCAO:"KRESET" Ao utilizar acentos na pesquisa, verifique se o seu"
-		"terminal ou prompt de comando utiliza codificacao ANSI/WINDOWS-1252.\n");
+		" terminal ou prompt de comando utiliza codificacao ANSI/WINDOWS-1252.\n");
 
 	do
 	{

@@ -79,12 +79,14 @@ struct ModuloArquivo
     bool operator>(ModuloArquivo*);
     bool operator<(ModuloArquivo*);
     ModuloArquivo& operator=(const ModuloArquivo&);
+    ~ModuloArquivo();
 };
 struct ModulodePesquisa /*Tipo base utilizado para obter informações sobre a estrutura do Hash.*/
 {
     char* Palavra_Chave;
     unsigned long Contador_Arquivos;
     ModuloArquivo* Arquivos;
+    ~ModulodePesquisa();
 };
 
 

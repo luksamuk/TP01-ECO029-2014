@@ -86,10 +86,11 @@ void Hashish::NoColisao::RetornarArquivos(ModulodePesquisa* conteiner)   /*Preen
     NoArquivo* arq = ListaArquivos.DataVector(NULL);
 
     printf("Retornando arquivos.\n");
-    printf("Contador de Arquivos -> %d", conteiner->Contador_Arquivos);
+    printf("Contador de Arquivos -> %d.\n", ListaArquivos.Length());
     for(int c = 0; c < conteiner->Contador_Arquivos; c++)
     {
         conteiner->Arquivos[c].Index = arq[c].Index;
+        printf("Indexador = %d", arq[c].Index);
         conteiner->Arquivos[c].Ocorrencias = arq[c].ListaOcorrencias.DataVector(&conteiner->Arquivos[c].Contador);
     }
 }
@@ -103,12 +104,12 @@ bool Hashish::Celula::Pesquisa(ModulodePesquisa* conteiner) /*Pesquisar dentro d
     /*Se a palavra for encontrada, incorporar lista de arquivos *
     /*no módulo de pesquisa e retornar true. Se não, false.*/
 
-    printf("Procurando nó de colisao da palavra %s", conteiner->Palavra_Chave);
+    printf("Procurando nó de colisao da palavra %s.\n", conteiner->Palavra_Chave);
     NoColisao* p = ListaColisoes.Search(conteiner->Palavra_Chave);
 
     if(p!=NULL)
     {
-        printf("Palavra nao encontrada.\n");
+        printf("Palavra encontrada.\n");
         p->RetornarArquivos(conteiner);
         return true;
     }
@@ -155,17 +156,19 @@ void Hashish::Pesquisa(ModulodePesquisa* conteiner) /*Anular o conteiner caso ne
     unsigned int valor = AgregarValor(conteiner->Palavra_Chave);
 
     printf("valor %lu\n");
-    printf("tabela[valor] %p", &tabela[2]);
-    if(tabela[2].Pesquisa(conteiner)) return;
+    printf("tabela[valor] %p\n", &tabela[valor]);
+    if(tabela[valor].Pesquisa(conteiner)) return;
 
-    if(conteiner)
-    {
-        delete conteiner;
-        conteiner = NULL;
-    }
+    //delete conteiner;
+    conteiner = NULL;
+    printf("Palavra nao encontrada.\n");
 }
 
-
+ModulodePesquisa::~ModulodePesquisa()
+{
+    delete [] Arquivos;
+    delete [] Palavra_Chave;
+}
 bool ModuloArquivo::operator<(ModuloArquivo* b)
 {
     if(Contador < b->Contador)
@@ -184,7 +187,11 @@ ModuloArquivo& ModuloArquivo::operator=(const ModuloArquivo& b)
     Index = b.Index;
     Contador = b.Contador;
 }
-
+ModuloArquivo::~ModuloArquivo()
+{
+    delete [] Ocorrencias;
+    Contador = 0;
+}
 Palavra::Palavra() {}
 Palavra::Palavra(char* palavra)
 {

@@ -44,7 +44,9 @@ int main(void)
 
 			printf("\nResultado da busca \""KCYN"%s"KRESET"\"\n", procbuf);
 			if(!m || !m->Contador_Arquivos)
-				printf(KRED"ERRO: "KRESET"Palavra nao encontrada.\n\n");
+				if(!strcmp("pao", procbuf))
+					printf(KGRN "Experimente procurar no ceu.\n\n" KRESET);
+				else printf(KRED"ERRO: "KRESET"Palavra nao encontrada.\n\n");
 			else
 			{
 				for(unsigned long i = 0; i < m->Contador_Arquivos; i++)

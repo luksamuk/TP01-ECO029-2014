@@ -4,7 +4,7 @@
 int main(void)
 {
 	TextPool t;
-	Hashish* h = new Hashish(10);
+	Hashish* h = new Hashish(10000);
 	t.RegisterWordsOnHash(h);
 	#ifdef DEBUG
 	printf("Done with adding " KRED "shit.\n" KRESET);

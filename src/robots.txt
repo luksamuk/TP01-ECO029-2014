@@ -4,3 +4,4 @@ tests/pangramas.txt
 tests/lorem_ipsum.txt
 tests/tabacaria.txt
 tests/braid-epilogue.txt
+tests/lista.cpp

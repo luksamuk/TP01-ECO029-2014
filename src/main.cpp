@@ -5,8 +5,9 @@ int main(void)
 {
 	TextPool t;
 	Hashish h(10000);
-	//t.RegisterWordsOnHash(&h);
-
+	t.RegisterWordsOnHash(&h);
+	printf("Done with adding shit.\n");
+/*
 	ModulodePesquisa* m;
 	unsigned int entrada;
 	printf(KRED"ATENCAO:"KRESET" Verifique se o seu terminal ou prompt de comando "
@@ -31,10 +32,10 @@ int main(void)
 			strcpy(procbuf, buf);
 			TextPool::RemoveOddCharacters(procbuf, strlen(procbuf));
 			sscanf(procbuf, "%s", procbuf);
-			
-			
+
+
 			m = new ModulodePesquisa;
-			m->palavra = procbuf;
+			m->Palavra_Chave = procbuf;
 			h.Pesquisa(m);
 
 			printf("\nResultado da busca \""KCYN"%s"KRESET"\"\n", m->palavra);
@@ -42,7 +43,7 @@ int main(void)
 				printf(KRED"ERRO: "KRESET"Palavra nao encontrada.\n\n");
 			else
 			{
-				
+
 			}
 
 			strcpy(procbuf, "");
@@ -59,6 +60,6 @@ int main(void)
 	}
 	while(entrada != 0);
 
-
+*/
 	return 0;
 }

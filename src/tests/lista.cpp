@@ -16,7 +16,7 @@ int main()
 {
     List<int, char> lista;
     int* vetor;
-    int n = -1;
+    int* n;
 
     lista.Insert(1, 'a');
     lista.Insert(2, 'b');
@@ -38,19 +38,30 @@ int main()
     vetor = lista.DataVector(NULL);
     ImprimirVetor(vetor, lista.Length());
 
+    n = lista.Search('c');
+    if(n)
+        printf("%d\n", *n);
+    else
+        printf("NULL\n");
+
+    *n = 30;
+
+    vetor = lista.DataVector(NULL);
+    ImprimirVetor(vetor, lista.Length());
+    /*
     printf("\nPesquisa:\n");
-    printf("'%d'.... %s.\t%p", 3, lista.Search(&n, 'c')?"sim":"nao", &n);
-    printf(" %d\n", n);
-    printf("'%d'... %s.\t%p", 23, lista.Search(&n, 'z')?"sim":"nao", &n);
-    printf(" %d\n", n);
-    printf("'%d'... %s.\t%p", 19, lista.Search(&n, 's')?"sim":"nao", &n);
-    printf(" %d\n", n);
-    printf("'%d'... %s.\t%p", 10, lista.Search(&n, 'j')?"sim":"nao", &n);
-    printf(" %d\n", n);
-    printf("'%d'... %s.\t%p", 15, lista.Search(&n, 'o')?"sim":"nao", &n);
-    printf(" %d\n", n);
-    printf("'%d'.... %s.\t%p", 1, lista.Search(&n, 'a')?"sim":"nao", &n);
-    printf(" %d\n", n);
+    printf("'%d'.... %s.\t%p", 3, lista.Search('c')?"sim":"nao", &n);
+    printf(" %d\n", *n);
+    printf("'%d'... %s.\t%p", 23, lista.Search(n, 'z')?"sim":"nao", &n);
+    printf(" %d\n", *n);
+    printf("'%d'... %s.\t%p", 19, lista.Search(n, 's')?"sim":"nao", &n);
+    printf(" %d\n", *n);
+    printf("'%d'... %s.\t%p", 10, lista.Search(n, 'j')?"sim":"nao", &n);
+    printf(" %d\n", *n);
+    printf("'%d'... %s.\t%p", 15, lista.Search(n, 'o')?"sim":"nao", &n);
+    printf(" %d\n", *n);
+    printf("'%d'.... %s.\t%p", 1, lista.Search(n, 'a')?"sim":"nao", &n);
+    printf(" %d\n", *n);*/
 
     delete [] vetor;
     return 0;

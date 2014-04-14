@@ -6,8 +6,8 @@ D_FLAGS = -g -DDEBUG
 CXX_FLAGS = $(D_FLAGS)
 #CXX_FLAGS = -O3
 
-all: hash.o textpool.o main.o
-	$(CXX) hash.o textpool.o main.o -o $(EXEC) $(CXX_FLAGS)
+all: hash.o list.o textpool.o main.o
+	$(CXX) hash.o list.o textpool.o main.o -o $(EXEC) $(CXX_FLAGS)
 
 test: lista
 

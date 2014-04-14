@@ -301,14 +301,14 @@ void TextPool::PrintPhrase(unsigned int File, unsigned long WordDistanceFromBegi
 	i = j = (textptr + WordDistanceFromBeginning);
 	// Find borders of phrase
 	while(i != textptr &&
-		  (*i != '.' ||
-		  *i != ',' ||
-		  *i != '?' ||
+		  (*i != '.' &&
+		  *i != ',' &&
+		  *i != '?' &&
 		  *i != '!')) i--;
 	while(j != textptr + (GetTextLength(File) - 1) &&
-		  (*j != '.' ||
-		  *j != ',' ||
-		  *j != '?' ||
+		  (*j != '.' &&
+		  *j != ',' &&
+		  *j != '?' &&
 		  *j != '!')) j++;
 
 	// fake tab on results
@@ -319,15 +319,12 @@ void TextPool::PrintPhrase(unsigned int File, unsigned long WordDistanceFromBegi
 		// Start marking text
 		if(c == (textptr + WordDistanceFromBeginning))
 			printf(KCYN);
+		// Stops marking text
+		else if(c > (textptr + WordDistanceFromBeginning) &&
+			(*c < 'A' || *c > 'Z') || (*c < 'a' || *c > 'z') || (*c < '0' || *c > '9'))
+		  	printf(KRESET);
 		// Prints char
 		printf("%c", *c);
-		// Stops marking text
-		if(c > (textptr + WordDistanceFromBeginning) &&
-			(*c != '.' ||
-		  	*c != ',' ||
-		  	*c != '?' ||
-		  	*c != '!'))
-		  	printf(KRESET);
 	}
 	printf(KRESET "\n");
 }

@@ -1,5 +1,8 @@
 /src/TP01
 *.exe
 *.o
-*.cbp
+*.depend
+*.layout
 *~
+/src/bin
+/src/obj
